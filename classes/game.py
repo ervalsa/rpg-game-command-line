@@ -175,7 +175,6 @@ class Person:
         pct = self.hp / self.maxHp * 100
 
         if self.mp < spell.cost or spell.type == "white" and pct > 50:
-            self.choose_enemy_spell()
-        else:
-            return spell, magic_dmg
+            spell, magic_dmg = self.choose_enemy_spell()
+        return spell, magic_dmg
             

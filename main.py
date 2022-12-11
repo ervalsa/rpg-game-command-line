@@ -35,10 +35,14 @@ player1 = Person(name="Varon ", hp=3300, mp=450, atk=350, df=34, magic=player_sp
 player2 = Person(name="Erina ", hp=2500, mp=250, atk=200, df=34, magic=player_spells, items=player_items)
 player3 = Person(name="Karin ", hp=5000, mp=650, atk=400, df=34, magic=player_spells, items=player_items)
 players = [player1, player2, player3]
-enemy1 = Person(name="Nulle ", hp=3000, mp=1000, atk=600, df=335, magic=enemy_spells, items=[])
-enemy2 = Person(name="Baron ", hp=12000, mp=1500, atk=525, df=25, magic=enemy_spells, items=[])
-enemy3 = Person(name="Stan  ", hp=2400, mp=1000, atk=750, df=150, magic=enemy_spells, items=[])
+enemy1 = Person(name="Nulle ", hp=500, mp=1000, atk=600, df=335, magic=enemy_spells, items=[])
+enemy2 = Person(name="Baron ", hp=500, mp=1500, atk=525, df=25, magic=enemy_spells, items=[])
+enemy3 = Person(name="Stan  ", hp=500, mp=1000, atk=750, df=150, magic=enemy_spells, items=[])
 enemies = [enemy1, enemy2, enemy3]
+
+# Checked if battle is over
+defeated_enemies = 0
+defeated_players = 0
 
 running = True
 i = 0
@@ -61,6 +65,7 @@ while running:
     print("_______________________________________________________________________")
     for player in players:
         player.get_stats()
+
     print("───────────────────────────────────────────────────────────────────────")
 
     print("\n")
@@ -71,6 +76,7 @@ while running:
     print("_______________________________________________________________________")
     for enemy in enemies:
         enemy.get_enemy_stats()
+
     print("───────────────────────────────────────────────────────────────────────")
 
     for player in players:
@@ -81,13 +87,14 @@ while running:
         if index == 0:
             dmg = player.generate_damage()
             enemy = player.choose_target(enemies)
-            enemies[enemy].take_damage(dmg)
 
+            enemies[enemy].take_damage(dmg)
             print("\nYou attacked ", enemies[enemy].name.replace(" ", ""), "for", dmg, "points of damage.")
 
             if enemies[enemy].get_hp() == 0:
                 print(enemies[enemy].name.replace(" ", "") + " has died.")
                 del enemies[enemy]
+                defeated_enemies += 1
 
         elif index == 1:
             player.choose_magic()
@@ -99,8 +106,8 @@ while running:
             spell = player.magic[magic_choice]
             magic_dmg = spell.generate_damage()
 
+            # Checked MP
             current_mp = player.get_mp()
-
             if spell.cost > current_mp:
                 print(Colors.fail + "\nNot enough MP\n" + Colors.endc)
                 continue
@@ -121,6 +128,7 @@ while running:
                 if enemies[enemy].get_hp() == 0:
                     print(enemies[enemy].name.replace(" ", "") + " has died.")
                     del enemies[enemy]
+                    defeated_enemies += 1
 
         elif index == 2:
             player.choose_item()
@@ -161,28 +169,21 @@ while running:
                 if enemies[enemy].get_hp() == 0:
                     print(enemies[enemy].name.replace(" ", "") + " has died.")
                     del enemies[enemy]
+                    defeated_enemies += 1
 
-    # Checked if battle is over
-    defeated_enemies = 0
-    defeated_players = 0
+    # for enemy in enemies:
+    #     if enemy.get_hp() == 0:
+    #         defeated_enemies += 1
 
-    for enemy in enemies:
-        if enemy.get_hp() == 0:
-            defeated_enemies += 1
-
-    for player in players:
-        if player.get_hp() == 0:
-            defeated_players += 1
+    # for player in players:
+    #     if player.get_hp() == 0:
+    #         defeated_players += 1
 
     # Checked if player won
     if defeated_enemies == 3:
         print(Colors.okGreen + "You win!" + Colors.endc)
         running = False
-
-    # Checked if enemy won
-    elif defeated_players == 3:
-        print(Colors.fail + "Your enemies has defeated you!" + Colors.endc)
-        running = False
+        break
 
     # Enemy attack phase
     for enemy in enemies:
@@ -196,6 +197,11 @@ while running:
             players[target].take_damage(enemy_dmg)
             print("\n" + Colors.fail + enemy.name.replace(" ", "") + " attacks " + players[target].name.replace(" ", "")
                   + " for", enemy_dmg, "points of damage." + Colors.endc)
+            
+            if players[target].get_hp() == 0:
+                    print(players[target].name.replace(" ", "") + " has died.")
+                    del players[target]
+                    defeated_players += 1
 
         elif enemy_choice == 1:
             spell, magic_dmg = enemy.choose_enemy_spell()
@@ -215,4 +221,11 @@ while running:
 
                 if players[target].get_hp() == 0:
                     print(players[target].name.replace(" ", "") + " has died.")
-                    del players[player]
+                    del players[target]
+                    defeated_players += 1
+    
+    # Checked if enemy won
+    if defeated_players == 3:
+        print(Colors.fail + "Your enemies has defeated you!" + Colors.endc)
+        running = False
+        break
