@@ -109,7 +109,6 @@ while running:
 
             if spell.type == "white":
                 player.heal(magic_dmg)
-
                 print(Colors.okBlue + "\n" + spell.name + " heals for", str(magic_dmg), "HP." + Colors.endc)
 
             elif spell.type == "black":
@@ -140,7 +139,6 @@ while running:
 
             if item.type == "potion":
                 player.heal(item.prop)
-
                 print(Colors.okGreen + "\n" + item.name + " heals for", str(item.prop), "HP" + Colors.endc)
 
             elif item.type == "elixer":
@@ -177,12 +175,12 @@ while running:
             defeated_players += 1
 
     # Checked if player won
-    if defeated_enemies == 2:
+    if defeated_enemies == 3:
         print(Colors.okGreen + "You win!" + Colors.endc)
         running = False
 
     # Checked if enemy won
-    elif defeated_players == 2:
+    elif defeated_players == 3:
         print(Colors.fail + "Your enemies has defeated you!" + Colors.endc)
         running = False
 
@@ -217,4 +215,4 @@ while running:
 
                 if players[target].get_hp() == 0:
                     print(players[target].name.replace(" ", "") + " has died.")
-                    del players[target]
+                    del players[player]

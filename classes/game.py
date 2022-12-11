@@ -84,7 +84,7 @@ class Person:
             if enemy.get_hp() != 0:
                 print("\t" + str(i) + ".", enemy.name)
                 i += 1
-        choice = int(input("\t" + "Choose target : ")) - 1
+        choice = int(input("Choose target : ")) - 1
         return choice
 
     def get_enemy_stats(self):
@@ -176,6 +176,6 @@ class Person:
 
         if self.mp < spell.cost or spell.type == "white" and pct > 50:
             self.choose_enemy_spell()
-            return spell, magic_dmg
         else:
-            return spell, 
+            return spell, magic_dmg
+            
