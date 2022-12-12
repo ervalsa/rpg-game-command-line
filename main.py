@@ -18,7 +18,7 @@ curaga = Spell(name="Curaga", cost=50, dmg=2000, type="white")
 # Create some Items
 potion = Item(name="Potion", type="potion", description="Heals 50 HP", prop=50)
 hiPotion = Item(name="High Potion", type="potion", description="Heals 100 HP", prop=100)
-superPotion = Item(name="Super Potion", type="potion", description="Heals 100 HP", prop=1000)
+superPotion = Item(name="Super Potion", type="potion", description="Heals 1000 HP", prop=1000)
 elixer = Item(name="Elixer", type="elixer", description="Fully restores HP/MP of one party member", prop=9999)
 hiElixer = Item(name="Mega Elixer", type="elixer", description="Fully restores party's HP/MP", prop=9999)
 grenade = Item(name="Grenade", type="attack", description="Deals 500 damage", prop=500)
